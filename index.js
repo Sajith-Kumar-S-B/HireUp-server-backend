@@ -5,13 +5,15 @@ const jobServer = express()
 const cors = require('cors')
 const port = process.env.PORT || 4000 
 require("dotenv").config()
-
+require('./db/connection')
+const router = require('./Router/router')
 // console.log(process.env.DATABASE)
 
 
 jobServer.use(express.json())
 jobServer.use(cors())
-
+jobServer.use(router)
+jobServer.use('/uploads',express.static('./uploads'))
 
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = `${process.env.DATABASE}`;
@@ -32,10 +34,18 @@ async function run() {
 
   // create db
 
-  const db = client.db("hireUp")
+  const db = client.db("hireUp_jobs")
   const jobsCollection = db.collection("jobs")
+    
 
+
+
+
+  
 // post a job
+
+
+
 
 jobServer.post("/post-job",async(req,res)=>{
   const body = req.body
@@ -145,6 +155,3 @@ jobServer.listen(port, () => {
 
 
 
-
-// sajithkumarsb1
-// 8hKRESIMn8S0o03y
